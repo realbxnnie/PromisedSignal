@@ -9,7 +9,7 @@ An implementation of RBXScriptSignal with Promise.
 **How to use it?**
 ```luau
 local PromisedSignal = require(game.Path.To.PromisedSignal)
-local HelloPlayer = Signal.new()
+local HelloPlayer = PromisedSignal.new()
 
 HelloPlayer:Connect(function(Player)
     print("Hello, " .. Player.Name .. "!")
