@@ -20,6 +20,8 @@ game.Players.PlayerAdded:Connect(function(Player)
 end)
 ```
 
-**Download**
-[GitHub](https://github.com/realbxnnie/PromisedSignal/releases)
+**Download**\
+[GitHub](https://github.com/realbxnnie/PromisedSignal/releases)\
 [Roblox](https://create.roblox.com/store/asset/74983621869370)
+
+_Inspired by stravant's GoodSignal._
