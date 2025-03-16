@@ -2,7 +2,7 @@
 An implementation of RBXScriptSignal with Promise.
 
 **Why PromisedSignal?**
-* Asynchronous Signals
+* Asynchronous Connections
 * Performs almost all the functions that RBXScriptSignal does
 * Simple and comfortable
 
