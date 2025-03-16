@@ -19,3 +19,7 @@ game.Players.PlayerAdded:Connect(function(Player)
     HelloPlayer:FireAsync(Player)
 end)
 ```
+
+**Download**
+[GitHub](https://github.com/realbxnnie/PromisedSignal/releases)
+[Roblox](https://create.roblox.com/store/asset/74983621869370)
