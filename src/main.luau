@@ -6,7 +6,7 @@
 local Promise = require(script.Parent.Promise)
 
 local Signal = {
-	_listener = nil,
+	_listeners = {},
 	_once = false,
 	_fired = false
 }
@@ -19,19 +19,35 @@ function Signal.new()
 end
 
 function Signal:Connect(func: (any) -> (any), ...: any)
-	self._listener = func
+	local listener = {
+		once = false,
+		callback = func
+	}
+	table.insert(self._listeners, { once = false, callback = func })
+	
+	return listener
 end
 
-function Signal:Disconnect()
-	self._listener = nil
+function Signal:DisconnectAll()
+	table.clear(self._listeners)
+end
+
+function Signal:Disconnect(connection)
+	table.remove(self._listeners, table.find(self._listeners, connection))
 end
 
 function Signal:FireAsync(...)
 	local arguments = ...
+	local listenerToRemove
 	self._fired = true
 	do
 		local promisedListener = Promise.new(function()
-			self._listener(arguments)
+			for _, listener in next, self._listeners do
+				if listener.once then
+					listenerToRemove = listener
+				end
+				listener.callback(arguments)
+			end
 		end)
 		promisedListener:andThen(function()
 			return true
@@ -40,15 +56,14 @@ function Signal:FireAsync(...)
 			return err
 		end)
 	end
-	self._fired = false
-	if self._once then
-		self._listener = nil
+	if listenerToRemove then
+		table.remove(self._listeners, table.find(self._listeners, listenerToRemove))
 	end
+	self._fired = false
 end
 
-function Signal:Once(func: (any) -> (any), ...: any)
-	self._listener = func
-	self._once = true
+function Signal:Once(func)
+	table.insert(self._listeners, { once = true, callback = func })
 end
 
 function Signal:Destroy()
